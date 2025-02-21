@@ -1,0 +1,25 @@
+spring:
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+  application:
+    name: gateway
+
+server:
+  port: 8072
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  info:
+    env:
+      enabled: true
+  endpoint:
+    gateway:
+      access: unrestricted
+
+info:
+  app:
+    name: "gateway"
+    description: "gateway which communicate with all microservice"
