@@ -29,3 +29,6 @@ info:
   app:
     name: "gateway"
     description: "gateway which communicate with all microservice"
+
+user-service:
+  url: http://localhost:3001
