@@ -25,6 +25,11 @@ public class GatewayApplication {
 						.filters(f -> f.rewritePath("/user-service/(?<segment>.*)","/${segment}"))
 						.uri("lb://USER-SERVICE")
 				)
+				.route(path -> path
+				.path("/formula-service/**")
+				.filters(f -> f.rewritePath("/formula-service/(?<segment>.*)","/${segment}"))
+				.uri("lb://FORMULA-SERVICE")
+		)
 				.build();
 	}
 
