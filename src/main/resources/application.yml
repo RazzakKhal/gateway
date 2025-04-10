@@ -32,3 +32,6 @@ info:
 
 user-service:
   url: http://localhost:3001
+
+web:
+  url: http://localhost:4200

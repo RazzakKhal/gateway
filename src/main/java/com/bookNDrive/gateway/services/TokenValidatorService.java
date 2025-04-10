@@ -14,7 +14,6 @@ public class TokenValidatorService {
     private final WebClient webClient;
 
     public TokenValidatorService(WebClient.Builder builder, @Value("${user-service.url}") String uri) {
-        System.out.println("l'uri : " + uri);
         this.webClient = builder
                 .baseUrl(uri)
                 .build();
