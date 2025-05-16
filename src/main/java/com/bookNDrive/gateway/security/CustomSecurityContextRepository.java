@@ -1,9 +1,10 @@
 package com.bookNDrive.gateway.security;
 
-import com.bookNDrive.gateway.services.TokenValidatorService;
+import io.jsonwebtoken.Claims;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
@@ -11,15 +12,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.Collections;
+import java.util.Collection;
 
 @Component
 public class CustomSecurityContextRepository implements ServerSecurityContextRepository {
 
-    private final TokenValidatorService tokenValidatorService;
+    private final JwtUtil jwtUtil;
 
-    public CustomSecurityContextRepository(TokenValidatorService tokenValidatorService) {
-        this.tokenValidatorService = tokenValidatorService;
+    public CustomSecurityContextRepository(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -32,17 +33,21 @@ public class CustomSecurityContextRepository implements ServerSecurityContextRep
         String token = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
         if (token != null && token.startsWith("Bearer ")) {
-            return tokenValidatorService.validate(token)
-                    .map(userInfo -> {
-                        Authentication auth = new UsernamePasswordAuthenticationToken(
-                                userInfo.get("mail"),
-                                null,
-                                Collections.emptyList() // Tu peux ajouter les rôles ici
-                        );
-                        return new SecurityContextImpl(auth);
-                    });
+            String jwt = token.substring(7);
+
+            try {
+                if (!jwtUtil.isTokenExpired(jwt)) {
+                    String username = jwtUtil.extractUsername(jwt);
+                    Claims claims = jwtUtil.extractAllClaims(jwt); // méthode à implémenter
+
+                    Authentication auth = new UsernamePasswordAuthenticationToken(username, null, (Collection<? extends GrantedAuthority>) claims.get("role"));
+                    return Mono.just(new SecurityContextImpl(auth));
+                }
+            } catch (Exception e) {
+                System.out.println("❌ Token invalide dans la gateway : " + e.getMessage());
+            }
         }
 
-        return Mono.empty(); // Aucun utilisateur
+        return Mono.empty(); // pas de token ou invalide
     }
 }
