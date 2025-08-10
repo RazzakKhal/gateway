@@ -28,7 +28,14 @@ public class SpringSecurityConfig{
                 .cors(cors -> cors.configurationSource(corsConfigSource))
                 .securityContextRepository(securityContextRepository)
                 .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers("/user-service/users/signin", "/user-service/users/signup", "/user-service/users/validate","/payment-service/payment/retour", "/formula-service/test", "/actuator/**").permitAll()
+                        .pathMatchers(
+                                "/user-service/users/signin",
+                                "/user-service/users/signup", "/user-service/users/validate",
+                                "/payment-service/payment/retour",
+                                "/formula-service/test",
+                                "/actuator/**",
+                                "/notification-service/mails/forgot-password"
+                        ).permitAll()
                         .anyExchange().permitAll()
                 )
                 .build();
