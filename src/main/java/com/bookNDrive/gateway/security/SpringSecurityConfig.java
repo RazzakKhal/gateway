@@ -34,7 +34,8 @@ public class SpringSecurityConfig{
                                 "/payment-service/payment/retour",
                                 "/formula-service/test",
                                 "/actuator/**",
-                                "/notification-service/mails/forgot-password"
+                                "/notification-service/mails/forgot-password",
+                                "/user-service/auth/forgot-password"
                         ).permitAll()
                         .anyExchange().permitAll()
                 )
