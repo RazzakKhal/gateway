@@ -22,7 +22,11 @@ public class GatewayApplication {
                         .path("/user-service/**")
                         .filters(f -> f
                                 .rewritePath("/user-service/(?<segment>.*)", "/${segment}")
-                                .circuitBreaker(config -> config.setName("UserServiceCircuitBraker"))
+                                .circuitBreaker(config -> config
+                                        .setName("UserServiceCircuitBraker")
+                                        .setFallbackUri("/fallback/test")
+
+                                )
 
                         )
                         .uri("lb://USER-SERVICE")
@@ -32,7 +36,10 @@ public class GatewayApplication {
                         .path("/formula-service/**")
                         .filters(f -> f
                                 .rewritePath("/formula-service/(?<segment>.*)", "/${segment}")
-                                .circuitBreaker(config -> config.setName("FormulaServiceCircuitBraker"))
+                                .circuitBreaker(config -> config
+                                        .setName("FormulaServiceCircuitBraker")
+                                        .setFallbackUri("/fallback/test")
+                                )
 
                         )
                         .uri("lb://FORMULA-SERVICE")
@@ -41,7 +48,11 @@ public class GatewayApplication {
                         .path("/payment-service/**")
                         .filters(f -> f
                                 .rewritePath("/payment-service/(?<segment>.*)", "/${segment}")
-                                .circuitBreaker(config -> config.setName("PaymentServiceCircuitBraker"))
+                                .circuitBreaker(config -> config
+                                        .setName("PaymentServiceCircuitBraker")
+                                        .setFallbackUri("/fallback/test")
+
+                                )
 
                         )
                         .uri("lb://PAYMENT-SERVICE")
@@ -50,7 +61,12 @@ public class GatewayApplication {
                         .path("/notification-service/**")
                         .filters(f -> f
                                 .rewritePath("/notification-service/(?<segment>.*)", "/${segment}")
-                                .circuitBreaker(config -> config.setName("NotificationServiceCircuitBraker"))
+                                .circuitBreaker(config ->
+                                        config
+                                                .setName("NotificationServiceCircuitBraker")
+                                                .setFallbackUri("/fallback/test")
+
+                                )
 
                         )
                         .uri("lb://NOTIFICATION-SERVICE")
