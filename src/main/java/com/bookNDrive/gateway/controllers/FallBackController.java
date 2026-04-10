@@ -11,6 +11,7 @@ public class FallBackController {
 
     @GetMapping("/test")
     Mono<String> getFallBackErrorOnCircuitBreaker() {
-        return Mono.just("une erreur est survenue lors de l'appel veuillez reessayez ultérieurement");
+        return Mono
+                .just("une erreur est survenue lors de l'appel veuillez reessayez ultérieurement");
     }
 }
