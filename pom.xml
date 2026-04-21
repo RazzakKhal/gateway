@@ -2,12 +2,14 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.3</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>com.bookNDrive</groupId>
+        <artifactId>ask-bom</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../ask-bom/pom.xml</relativePath>
     </parent>
+
     <groupId>com.bookNDrive</groupId>
     <artifactId>gateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -26,10 +28,7 @@
         <tag/>
         <url/>
     </scm>
-    <properties>
-        <java.version>17</java.version>
-        <spring-cloud.version>2024.0.0</spring-cloud.version>
-    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -62,24 +61,20 @@
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
-            <version>0.11.5</version> <!-- Ou 0.12.0 selon la version souhaitée -->
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
-            <version>0.11.5</version> <!-- Ou 0.12.0 -->
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-jackson</artifactId> <!-- Utilisé pour le parsing JSON -->
-            <version>0.11.5</version> <!-- Ou 0.12.0 -->
+            <artifactId>jjwt-jackson</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -99,17 +94,6 @@
             <artifactId>tomcat-embed-core</artifactId>
         </dependency>
     </dependencies>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>
@@ -120,7 +104,7 @@
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
-                <version>3.4.2</version>
+                <version>${jib-maven-plugin.version}</version>
                 <configuration>
                     <to>
                         <image>razzak2007/plateforme-autoecole-gateway</image>
@@ -129,5 +113,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
