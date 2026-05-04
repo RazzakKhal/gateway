@@ -22,13 +22,25 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
   info:
     env:
       enabled: true
-  endpoint:
-    gateway:
-      access: unrestricted
+  health:
+    probes:
+      enabled: true
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
 
 info:
   app:
